@@ -17,10 +17,7 @@ app.use('/api/contacts', require('./routes/contactRoutes'))
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
-  let p = path.join(__dirname, '/frontend/build').split('\\')
-  p.splice(p.indexOf('backend'), 1)
-  p = p.join('\\')
-  app.use(express.static(p))
+  app.use(express.static(path.join(__dirname, '../frontend/build')))
 
   app.get('*', (req, res) =>
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
