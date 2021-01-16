@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addContact, getAllContacts } from '../../actions/contactActions'
+import {
+  addContact,
+  getAllContacts,
+  updateContact,
+} from '../../actions/contactActions'
+import { CONTACT_CLEAR_CURRENT } from '../../constants/contactConstants'
 
 const ContactForm = () => {
   const dispatch = useDispatch()
 
   const contactAdd = useSelector((state) => state.contactAdd)
+  const contactUpdate = useSelector((state) => state.contactUpdate)
 
   const { success, error } = contactAdd
+  const { current, success: successUpdate } = contactUpdate
 
   useEffect(() => {
-    if (success) {
+    if (success || !current) {
       setContact({
         name: '',
         email: '',
@@ -18,9 +25,19 @@ const ContactForm = () => {
         type: 'personal',
       })
     }
+    if (current) {
+      setContact({
+        name: current.name,
+        email: current.email,
+        phone: current.phone,
+        type: current.type,
+      })
+    }
+
+    if (successUpdate || success) dispatch(getAllContacts())
 
     if (error) console.log(error)
-  }, [success, error])
+  }, [success, error, current, successUpdate])
 
   const [contact, setContact] = useState({
     name: '',
@@ -36,13 +53,21 @@ const ContactForm = () => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(addContact(contact))
-    dispatch(getAllContacts())
+    if (!current) dispatch(addContact(contact))
+    else dispatch(updateContact(contact, current._id))
+  }
+
+  const clearHandler = () => {
+    dispatch({
+      type: CONTACT_CLEAR_CURRENT,
+    })
   }
 
   return (
     <form onSubmit={submitHandler}>
-      <h2 className='text-primary'>{'Add Contact'}</h2>
+      <h2 className='text-primary'>
+        {current ? 'Edit Contact' : 'Add Contact'}
+      </h2>
       <input
         type='text'
         placeholder='Name'
@@ -86,10 +111,17 @@ const ContactForm = () => {
       <div>
         <input
           type='submit'
-          value={'Add Contact'}
+          value={current ? 'Update Contact' : 'Add Contact'}
           className='btn btn-primary btn-block'
         />
       </div>
+      {current && (
+        <div>
+          <button className='btn btn-light btn-block' onClick={clearHandler}>
+            Clear
+          </button>
+        </div>
+      )}
     </form>
   )
 }

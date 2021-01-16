@@ -36,7 +36,7 @@ const Contacts = () => {
       ) : (
         <>
           {contacts.map((contact) => (
-            <div key={contact._id} timeout={500} classNames='item'>
+            <div key={contact._id} className='item'>
               <ContactItem contact={contact} />
             </div>
           ))}

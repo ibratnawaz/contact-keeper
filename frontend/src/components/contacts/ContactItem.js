@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteContact } from '../../actions/contactActions'
 import PropTypes from 'prop-types'
+import { deleteContact } from '../../actions/contactActions'
+import { CONTACT_SET_CURRENT } from '../../constants/contactConstants'
 
 const ContactItem = ({ contact }) => {
   const dispatch = useDispatch()
@@ -14,6 +15,13 @@ const ContactItem = ({ contact }) => {
 
   const deleteHandler = () => {
     dispatch(deleteContact(_id))
+  }
+
+  const editHandler = () => {
+    dispatch({
+      type: CONTACT_SET_CURRENT,
+      payload: contact,
+    })
   }
 
   return (
@@ -42,10 +50,7 @@ const ContactItem = ({ contact }) => {
         )}
       </ul>
       <p>
-        <button
-          className='btn btn-dark btn-sm'
-          //   onClick={() => setCurrent(contact)}
-        >
+        <button className='btn btn-dark btn-sm' onClick={editHandler}>
           Edit
         </button>
         <button className='btn btn-danger btn-sm' onClick={deleteHandler}>

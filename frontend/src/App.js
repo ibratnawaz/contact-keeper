@@ -1,6 +1,5 @@
 import React from 'react'
 import ContactForm from './components/contacts/ContactForm'
-// import ContactFilter from './components/contacts/ContactFilter'
 import Contacts from './components/contacts/Contact'
 
 function App() {
@@ -11,7 +10,6 @@ function App() {
           <ContactForm />
         </div>
         <div>
-          {/* <ContactFilter /> */}
           <Contacts />
         </div>
       </div>

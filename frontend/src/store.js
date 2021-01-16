@@ -5,12 +5,14 @@ import {
   contactAddReducer,
   contactListReducer,
   contactRemoveReducer,
+  contactUpdateReducer,
 } from './reducers/contactReducers'
 
 const reducer = combineReducers({
   contactAdd: contactAddReducer,
   contactList: contactListReducer,
   contactRemove: contactRemoveReducer,
+  contactUpdate: contactUpdateReducer,
 })
 
 const initialState = {}

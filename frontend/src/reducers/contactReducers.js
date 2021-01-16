@@ -9,6 +9,11 @@ import {
   CONTACT_DELETE_SUCCESS,
   CONTACT_DELETE_FAIL,
   CONTACT_DELETE_RESET,
+  CONTACT_UPDATE_REQUEST,
+  CONTACT_UPDATE_SUCCESS,
+  CONTACT_UPDATE_FAIL,
+  CONTACT_SET_CURRENT,
+  CONTACT_CLEAR_CURRENT,
 } from '../constants/contactConstants'
 
 export const contactAddReducer = (state = {}, action) => {
@@ -54,6 +59,23 @@ export const contactRemoveReducer = (state = {}, action) => {
       return { loading: false, error: action.payload }
     case CONTACT_DELETE_RESET:
       return {}
+    default:
+      return state
+  }
+}
+
+export const contactUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CONTACT_UPDATE_REQUEST:
+      return { loading: true }
+    case CONTACT_UPDATE_SUCCESS:
+      return { loading: false, success: true, contact: action.payload }
+    case CONTACT_UPDATE_FAIL:
+      return { loading: false, error: action.payload }
+    case CONTACT_SET_CURRENT:
+      return { current: action.payload }
+    case CONTACT_CLEAR_CURRENT:
+      return { current: null }
     default:
       return state
   }
