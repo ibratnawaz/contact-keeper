@@ -45,7 +45,7 @@ const updateContact = async (req, res) => {
     const { name, email, phone, type } = req.body
 
     let contact = await Contact.findById(req.params.id)
-    if (!contact) return res.status(404).json({ msg: 'Contact not found' })
+    if (!contact) return res.status(404).json({ message: 'Contact not found' })
 
     contact.name = name
     contact.email = email
@@ -67,11 +67,11 @@ const updateContact = async (req, res) => {
 const deleteContact = async (req, res) => {
   try {
     let contact = await Contact.findById(req.params.id)
-    if (!contact) return res.status(404).json({ msg: 'Contact not found' })
+    if (!contact) return res.status(404).json({ message: 'Contact not found' })
 
     await contact.remove()
 
-    res.json({ msg: 'Contact deleted' })
+    res.json({ message: 'Contact deleted' })
   } catch (error) {
     console.error(error.message)
     res.status(500).send(error.message)
